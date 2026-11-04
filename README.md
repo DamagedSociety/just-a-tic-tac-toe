@@ -1,15 +1,21 @@
 # Just a Tic Tac Toe 🤖❌
 
-Un juego clásico de **Tres en Raya** desarrollado en **JavaScript puro**, HTML y CSS, optimizado para jugar de forma interactiva en el navegador. Incluye un oponente controlado por la máquina con inteligencia artificial básica (estrategia de esquinas, bloqueo de victorias y ataques ganadores), efectos de sonido nativos y un diseño limpio y modular.
+## Sobre mí
 
----
+¡Hola! Soy Julián López, desarrollador junior, en proceso de formación, donde estoy adquiriendo habilidades en tecnologías clave como HTML, CSS, JavaScript y TypeScript. Mi objetivo es dominar estas herramientas para convertirme en un desarrollador Full Stack aportando valor y soluciones en desarrollo de proyectos WEB.
 
-## 🚀 Características
+## Descripción del proyecto
 
-- **Jugador vs Máquina (IA):** Compite contra el ordenador, el cual analiza el tablero para intentar ganar, bloquear tus jugadas, y priorizar las esquinas al inicio de la partida.
-- **Efectos de sonido interactivos:** Utiliza la API nativa de audio del navegador (`AudioContext`) para generar tonos cortos al hacer clic y un tono especial al ganar, sin necesidad de archivos externos.
-- **Actualización visual fluida:** Sincronización precisa entre la interfaz y el estado lógico del juego antes de mostrar alertas o reiniciar.
-- **Reinicio automático y manual:** El tablero se reinicia automáticamente tras finalizar una partida o mediante un botón de reinicio dedicado.
+Just a Tic Tac Toe es un juego clásico interactivo concebido para que los usuarios puedan competir contra una máquina con inteligencia artificial básica, disfrutar de efectos de sonido nativos y reiniciar la partida de forma automática o manual. El proyecto partió de una lógica estructurada de dos jugadores humanos y fue refactorizado para integrar un oponente inteligente, priorización de movimientos (esquinas, ataques y bloqueos) y retroalimentación auditiva mediante la Web Audio API.
+
+Hasta esta etapa del desarrollo, me he encargado de implementar las siguientes funcionalidades principales:
+
+- **Estructuración y arquitectura modular del código:** Organización del script principal en secciones claras y mantenibles (constantes, funciones, lógica de estado y event listeners) para garantizar la legibilidad y escalabilidad del código.
+- **Inteligencia Artificial del Oponente (`computerMove`):** Desarrollo de una jerarquía de prioridades algorítmica para la máquina (`"O"`), evaluando en orden de importancia: completar una línea para ganar, bloquear las jugadas de victoria del usuario (`"X"`), priorizar casillas en las esquinas al inicio del juego, o seleccionar celdas aleatorias disponibles.
+- **Validación de estados de victoria y empate:** Verificación mediante combinación de arreglos (`winningCombinations`) utilizando métodos como `.some()` y `.includes()`, bloqueando interacciones posteriores y controlando el flujo del juego.
+- **Renderizado sincronizado y UX:** Sincronización precisa entre la actualización lógica del tablero (`board`) y la manipulación del DOM (`textContent`), permitiendo visualizar el último movimiento antes de activar alertas o ejecutar un reseteo automatizado mediante `setTimeout`.
+- **Efectos de sonido nativos (`Web Audio API`):** Generación de tonos programáticos (clics y sonidos de victoria) utilizando las interfaces nativas del navegador (`AudioContext`, `OscillatorNode`, `GainNode`) sin depender de archivos de audio externos propensos a bloqueos de CORS o políticas de autoplay.
+- **Control de eventos y reseteo:** Gestión de clics condicionales para evitar movimientos fuera de turno o sobre casillas ocupadas, junto con una función integral (`restartGame`) que limpia tanto el estado en memoria como la interfaz visual.
 
 ---
 
@@ -21,19 +27,33 @@ El script principal está organizado de manera modular y limpia en las siguiente
 2. **Funciones del Sistema:** Lógica de audio (`playTone`), gestión de movimientos (`makeMove`), inteligencia artificial de la máquina (`computerMove` y `findBestMove`), validación de fin de partida (`checkGameEnd`) y reseteo (`restartGame`).
 3. **Event Listeners:** Escuchadores de eventos para los clics en cada celda del tablero y en el botón de reinicio.
 
----
+## Tecnologías utilizadas
 
-## 🛠️ Tecnologías Utilizadas
+**JavaScript (ES6+):**
 
-- **HTML5:** Estructura de las celdas del tablero y el botón de reinicio.
-- **CSS3:** Estilos visuales del tablero y la interfaz.
-- **JavaScript (ES6+):** Lógica del juego, manipulación del DOM, programación de eventos y generación de audio mediante Web Audio API.
+- **Manipulación avanzada del DOM:** Selección de elementos (`querySelector`, `querySelectorAll`), actualización de nodos de texto y gestión de interfaces visuales.
+- **Programación Asíncrona:** Uso de temporizadores asíncronos (`setTimeout`) para pausar los turnos de la máquina y demorar transiciones de cierre o reseteo.
+- **Gestión de eventos y propagación:** Asignación de escuchadores (`addEventListener`), validación de turnos y prevención de acciones no deseadas en casillas ocupadas o juegos inactivos.
+- **Estructuras de datos y métodos avanzados:** Uso de arreglos multidimensionales, métodos funcionales (`map`, `filter`, `some`, `includes`), objetos de configuración y algoritmos de búsqueda y validación lógica.
+- **Web Audio API:** Creación y control dinámico de osciladores de audio y nodos de ganancia para la síntesis de efectos sonoros interactivos.
+
+**Git y GitHub (Control de versiones):**
+
+- Control de cambios locales mediante `git init`, `add`, `commit` y sincronización con repositorios remotos en GitHub a través de ramas principales (`main`).
 
 ---
 
 ## 🕹️ Cómo Jugar
 
-1. Abre el archivo `index.html` en tu navegador web preferido.
-2. Haz clic en cualquiera de las casillas vacías para colocar tu ficha (`X`).
-3. La máquina (`O`) responderá automáticamente después de medio segundo.
-4. Intenta alinear tres fichas en horizontal, vertical o diagonal antes de que la máquina lo haga.
+1. **Clona el repositorio:**
+   Abre tu terminal y escribe el siguiente comando:
+
+   ```bash
+   git clone https://github.com/DamagedSociety/just-a-tic-tac-toe.git
+
+   ```
+
+2. Abre el archivo en tu navegador:
+   Navega hasta la carpeta del proyecto y abre el archivo index.html en tu navegador web de preferencia, o utiliza una extensión como "Live Server" en tu editor de código para una experiencia automática.
+
+3. El proyecto también se encuentra desplegado y listo para su visualización en vivo en el siguiente enlace: https://damagedsociety.github.io/just-a-tic-tac-toe/
