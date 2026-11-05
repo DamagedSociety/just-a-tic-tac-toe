@@ -122,3 +122,21 @@
   color: var(--text-color);
   transition: color 0.3s;
 }
+
+.footer {
+  margin-top: 20px;
+  text-align: center;
+  color: var(--text-color);
+  transition: color 0.3s;
+}
+
+.footer__link {
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer__link:hover {
+  width: 50%;
+  height: 50%;
+}
