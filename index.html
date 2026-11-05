@@ -4,23 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./blocks/index.css" />
+    <link rel="stylesheet" href="./blocks/switch.css" />
     <title>#TicTacToe</title>
   </head>
   <body class="body">
     <header class="header">
       <h1 class="title">Just a TicTacToe</h1>
-      <nav>
-        <ul class="nav">
-          <li class="nav__item">
-            <a
-              href="https://github.com/DamagedSociety/just-a-tic-tac-toe"
-              target="_blank"
-              class="nav__link"
-              >About</a
-            >
-          </li>
-        </ul>
-      </nav>
+      <div class="theme-toggle__container">
+        <input type="checkbox" id="theme-toggle" class="theme-toggle" />
+      </div>
     </header>
     <main class="main">
       <section class="game">
@@ -36,10 +28,17 @@
           <div class="game__cell" data-cell></div>
         </div>
       </section>
+      <p class="game-message"></p>
       <div class="btn__container">
         <button id="restartButton" class="restart-btn">Restart Game</button>
       </div>
+      <div class="score-board">
+        <p>Jugador (X): <span id="scoreX">0</span></p>
+        <p>Máquina (O): <span id="scoreO">0</span></p>
+        <p>Empates: <span id="scoreTies">0</span></p>
+      </div>
     </main>
-    <script src="./index.js"></script>
+    <script src="./index.js" defer></script>
+    <script src="./switch.js" defer></script>
   </body>
 </html>

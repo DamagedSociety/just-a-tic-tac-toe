@@ -3,9 +3,15 @@
 // ==========================================
 const gameCells = document.querySelectorAll("[data-cell]");
 const restartButton = document.querySelector(".restart-btn");
+const messageElement = document.querySelector(".game-message");
+let scores = JSON.parse(localStorage.getItem("tictactoe_scores")) || {
+  X: 0,
+  O: 0,
+  ties: 0,
+};
 
 let board = ["", "", "", "", "", "", "", "", ""];
-let currentPlayer = "X";
+let currentPlayer = "O";
 let isGameActive = true;
 
 const winningCombinations = [
@@ -115,6 +121,42 @@ function findBestMove(player) {
   return null;
 }
 
+// Función para actualizar los contadores en pantalla y guardarlos
+function updateScoreDisplay() {
+  const scoreXEl = document.getElementById("scoreX");
+  const scoreOEl = document.getElementById("scoreO");
+  const scoreTiesEl = document.getElementById("scoreTies");
+
+  if (scoreXEl) scoreXEl.textContent = scores.X;
+  if (scoreOEl) scoreOEl.textContent = scores.O;
+  if (scoreTiesEl) scoreTiesEl.textContent = scores.ties;
+
+  localStorage.setItem("tictactoe_scores", JSON.stringify(scores));
+}
+
+// Función para actualizar y guardar el puntaje
+function saveScore(result) {
+  if (result === "X") scores.X++;
+  else if (result === "O") scores.O++;
+  else if (result === "tie") scores.ties++;
+
+  updateScoreDisplay(); // Actualiza el DOM y el localStorage de golpe
+}
+
+// Función para mostrar el mensaje en la etiqueta <p> y continuar el juego al hacer clic
+function showGameMessage(message, callback) {
+  if (messageElement) {
+    messageElement.textContent = message;
+  }
+
+  setTimeout(() => {
+    if (messageElement) {
+      messageElement.textContent = "";
+    }
+    if (callback) callback();
+  }, 2500);
+}
+
 // Función para verificar si hay victoria o empate
 function checkGameEnd() {
   let roundWon = winningCombinations.some((combination) => {
@@ -123,22 +165,26 @@ function checkGameEnd() {
   });
 
   if (roundWon) {
-    playTone(600, 0.3, "sine"); // Sonido de victoria
-
-    setTimeout(() => {
-      alert(`¡El jugador ${currentPlayer} ha ganado!`);
-      restartGame();
-    }, 50);
+    playTone(600, 0.3, "sine");
     isGameActive = false;
+
+    const winner = currentPlayer;
+    saveScore(winner);
+    showGameMessage(`¡El jugador ${winner} ha ganado!`, () => {
+      restartGame();
+    });
+
     return true;
   }
 
   if (!board.includes("")) {
-    setTimeout(() => {
-      alert("¡Empate!");
-      restartGame();
-    }, 50);
     isGameActive = false;
+
+    saveScore("tie"); // <-- Corregido para guardar el empate inmediatamente
+    showGameMessage("¡Empate!", () => {
+      restartGame();
+    });
+
     return true;
   }
 
@@ -148,17 +194,36 @@ function checkGameEnd() {
 // Función para reiniciar el juego por completo
 function restartGame() {
   board = ["", "", "", "", "", "", "", "", ""];
-  currentPlayer = "X";
+  currentPlayer = "O"; // La máquina vuelve a iniciar
   isGameActive = true;
+
+  if (messageElement) {
+    messageElement.textContent = "";
+  }
 
   gameCells.forEach((cell) => {
     cell.textContent = "";
   });
+
+  // La máquina hace su primer movimiento tras el reseteo
+  // Usamos una pequeña validación extra para evitar doble turno
+  setTimeout(() => {
+    if (
+      isGameActive &&
+      currentPlayer === "O" &&
+      board.every((cell) => cell === "")
+    ) {
+      computerMove();
+    }
+  }, 500);
 }
 
 // ==========================================
 // 3. LÓGICA PRINCIPAL Y EVENT LISTENERS
 // ==========================================
+
+// Pintar el marcador inicial al cargar la página por primera vez
+updateScoreDisplay();
 
 // Listener para los clics en las celdas del tablero (Jugador Humano)
 gameCells.forEach((cell, index) => {
@@ -173,6 +238,8 @@ gameCells.forEach((cell, index) => {
     setTimeout(computerMove, 500);
   });
 });
+
+setTimeout(computerMove, 500);
 
 // Listener para el botón de reinicio manual
 restartButton.addEventListener("click", restartGame);
